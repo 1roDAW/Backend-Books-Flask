@@ -3,6 +3,7 @@
 #descripcion
 #precio
 
+
 import sys
 from flask import Flask,jsonify,request
 
@@ -12,27 +13,29 @@ app.debug = True
 @app.route("/books",methods=["GET"])
 def get_books():
     print("in getbooks",file=sys.stdout)
-    return None
+    if len(request.args) == 0:
+        print("NO args",file=sys.stdout)
+    else:
+        print(request.args['id'],file=sys.stdout)
+    return jsonify({"result":200})
 
-@app.route("/books/{id}",methods=["GET"])
-def get_book_by_id():
-    print("in get book by id",file=sys.stdout)
-    print(request.args)
-    return None
+@app.route("/books/<int:Id>",methods=["GET"])
+def get_book_by_id(Id):
+   print("in get book by id",file=sys.stdout)
+   print(Id,file=sys.stdout)
+   return jsonify({"result":200,"Id":Id})
 
 @app.route("/authors",methods=['GET'])
 def get_authors():
     print("in get authors ",file=sys.stdout)
     print(request.get_json,file=sys.stdout)
-    return None
+    return jsonify({"result":200})
 
-@app.route("/authors/{id}",methods=['GET'])
-def get_author_by_id():
+@app.route("/authors/<int:Id>",methods=['GET'])
+def get_author_by_id(Id):
     print("In get authors by id",file=sys.stdout)
-    print(request.get_json())
-    print(request.args,file=sys.stdout)
-    #return request.args
-    return None
+    print(Id,file=sys.stdout)
+    return jsonify({"result":200,"Id":Id})
 
 if __name__ == '__main__': 
     app.run(debug=True, port=5000)
